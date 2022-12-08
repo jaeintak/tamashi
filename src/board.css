@@ -28,11 +28,11 @@ td {
   background: #477f9e;
 }
 
-td.active {
+td.possible {
   cursor: pointer;
 }
 
-td.active:hover {
+td.possible:hover {
   background: #96b8c3;
 }
 

@@ -21,10 +21,32 @@ class Board extends React.Component {
     isMultiplayer: PropTypes.bool
   };
 
-  onClick = (id, opponentId) => {
-    this.props.moves.move(id);
-    this.props.moves.open(opponentId);
+  onClick = (G, ctx, id) => {
+    if (this.isPossible(G, ctx, id)) {
+      this.props.moves.move(id);
+      this.props.moves.open(id);
+    }
   };
+
+  isPossible(G, ctx, id) {
+    if (ctx.currentPlayer === "0") {
+      if (
+        id === G.playerA + 1 ||
+        id === G.playerA + -1 ||
+        id === G.playerA + 10 ||
+        id === G.playerA + -10
+      )
+        return true;
+      else return false;
+    } else if (
+      id === G.playerB + 1 ||
+      id === G.playerB + -1 ||
+      id === G.playerB + 10 ||
+      id === G.playerB + -10
+    )
+      return true;
+    else return false;
+  }
 
   render() {
     let tbody = [];
@@ -34,24 +56,40 @@ class Board extends React.Component {
         const id = 10 * i + j;
         const playerA = this.props.G.playerA;
         const playerB = this.props.G.playerB;
-        const effect = "effect";
         if (id === playerA) {
           cells.push(
-            <td id="cell" key={id} onClick={() => this.onClick(id, playerB)}>
+            <td
+              id="cell"
+              key={id}
+              onClick={() => this.onClick(this.props.G, id)}
+            >
               {this.props.G.cells[id]}
               <span class="circleA"></span>
             </td>
           );
         } else if (id === playerB) {
           cells.push(
-            <td id="cell" key={id} onClick={() => this.onClick(id, playerA)}>
+            <td
+              id="cell"
+              key={id}
+              onClick={() => this.onClick(this.props.G, this.props.ctx, id)}
+            >
               {this.props.G.cells[id]}
               <span class="circleB"></span>
             </td>
           );
         } else {
           cells.push(
-            <td id="cell" key={id} onClick={() => this.onClick(id, null)}>
+            <td
+              id="cell"
+              className={
+                this.isPossible(this.props.G, this.props.ctx, id)
+                  ? "possible"
+                  : ""
+              }
+              key={id}
+              onClick={() => this.onClick(this.props.G, this.props.ctx, id)}
+            >
               {this.props.G.cells[id]}
             </td>
           );
