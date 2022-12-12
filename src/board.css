@@ -1,29 +1,20 @@
-/*
- * Copyright 2017 The boardgame.io Authors
- *
- * Use of this source code is governed by a MIT-style
- * license that can be found in the LICENSE file or at
- * https://opensource.org/licenses/MIT.
- */
-
-#board {
+\#board {
   border-collapse: collapse;
   font-family: monospace;
 }
 
 #cell {
   font-size: 13px;
+  text-transform: uppercase;
 }
 
 td {
   text-align: center;
   font-weight: bold;
-  font-size: 25px;
   color: #555;
   width: 50px;
   height: 50px;
-  line-height: 50px;
-  border: 3px solid #fff;
+  border: 1px solid #fff;
   background: #fff;
   background: #477f9e;
 }
@@ -60,4 +51,27 @@ td.possible:hover {
   color: #fff;
   line-height: 50px;
   text-align: center;
+}
+
+.dialog-btn {
+  font-weight: 400;
+  border: 2.5px solid black;
+  border-radius: 1vh;
+  margin: 2px;
+  text-transform: uppercase;
+  &:disabled {
+    &:hover {
+      cursor: not-allowed;
+      background: inherit;
+    }
+    filter: opacity(0.3);
+  }
+  &:focus,
+  &:active,
+  &:focus:active {
+    outline: none;
+  }
+  &:hover {
+    background: #cccccc;
+  }
 }

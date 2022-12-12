@@ -1,11 +1,3 @@
-/*
- * Copyright 2017 The boardgame.io Authors
- *
- * Use of this source code is governed by a MIT-style
- * license that can be found in the LICENSE file or at
- * https://opensource.org/licenses/MIT.
- */
-
 function GetRandomTile() {
   const effects = [
     "aperture",
@@ -16,25 +8,25 @@ function GetRandomTile() {
   return effects[Math.floor(Math.random() * effects.length)];
 }
 
-function TakeEffect(G, ctx, currentTile) {
+function TakeEffect(G, ctx) {
   if (ctx.currentPlayer === "0") {
-    if (currentTile === "aperture") {
+    if (G.currentTile === "aperture") {
     }
-    if (currentTile === "shaking chair") {
+    if (G.currentTile === "shaking chair") {
       G.playerASoulDrops--;
     }
-    if (currentTile === "portal gun") {
+    if (G.currentTile === "portal gun") {
       G.playerA++;
     }
-    if (currentTile === "soul drops found") {
+    if (G.currentTile === "soul drops found") {
       G.playerASoulDrops++;
     }
   } else {
-    if (currentTile === "shaking chair") {
+    if (G.currentTile === "shaking chair") {
       G.playerBSoulDrops--;
     }
-    if (currentTile === "soul drops found") {
-      G.playerB++;
+    if (G.currentTile === "soul drops found") {
+      G.playerBSoulDrops++;
     }
   }
 }
@@ -45,18 +37,19 @@ const Tamashi = {
     playerASoulDrops: 10,
     playerB: 99,
     playerBSoulDrops: 10,
-    cells: Array(100).fill(null)
+    cells: Array(100).fill(null),
+    currentTile: ""
   }),
 
   moves: {
     open(G, ctx) {
-      let currentTile = GetRandomTile();
+      G.currentTile = GetRandomTile();
       if (ctx.currentPlayer === "0") {
-        G.cells[G.playerB] = currentTile;
+        G.cells[G.playerB] = G.currentTile;
       } else {
-        G.cells[G.playerA] = currentTile;
+        G.cells[G.playerA] = G.currentTile;
       }
-      TakeEffect(G, ctx, currentTile);
+      TakeEffect(G, ctx);
     },
 
     move(G, ctx, id) {

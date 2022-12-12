@@ -1,14 +1,5 @@
-/*
- * Copyright 2017 The boardgame.io Authors.
- *
- * Use of this source code is governed by a MIT-style
- * license that can be found in the LICENSE file or at
- * https://opensource.org/licenses/MIT.
- */
-
 import React from "react";
 import PropTypes from "prop-types";
-import Player from "./player.js";
 import "./board.css";
 
 class Board extends React.Component {
@@ -56,6 +47,9 @@ class Board extends React.Component {
         const id = 10 * i + j;
         const playerA = this.props.G.playerA;
         const playerB = this.props.G.playerB;
+        if (cells[id] === "aperture") {
+          console.log("hmm");
+        }
         if (id === playerA) {
           cells.push(
             <td
@@ -65,6 +59,15 @@ class Board extends React.Component {
             >
               {this.props.G.cells[id]}
               <span class="circleA"></span>
+              <dialog open>
+                would you like to exit?
+                <button className="dialog-btn" onClick>
+                  yes
+                </button>
+                <button className="dialog-btn" onClick>
+                  no
+                </button>
+              </dialog>
             </td>
           );
         } else if (id === playerB) {
