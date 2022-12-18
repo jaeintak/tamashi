@@ -1,12 +1,13 @@
-import React from "react";
-import { render } from "react-dom";
-import { Client } from "boardgame.io/react";
-import Tamashi from "./game";
-import Board from "./board";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-const App = Client({
-  game: Tamashi,
-  board: Board
-});
+import App from "./App";
 
-render(<App />, document.getElementById("root"));
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);

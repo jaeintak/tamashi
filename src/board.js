@@ -13,6 +13,7 @@ class Board extends React.Component {
   };
 
   onClick = (G, ctx, id) => {
+    console.log(ctx)
     if (this.isPossible(G, ctx, id)) {
       this.props.moves.move(id);
       this.props.moves.open(id);
@@ -47,15 +48,12 @@ class Board extends React.Component {
         const id = 10 * i + j;
         const playerA = this.props.G.playerA;
         const playerB = this.props.G.playerB;
-        if (cells[id] === "aperture") {
-          console.log("hmm");
-        }
         if (id === playerA) {
           cells.push(
             <td
               id="cell"
               key={id}
-              onClick={() => this.onClick(this.props.G, id)}
+              onClick={this.onClick(this.props.G, this.props.ctx, id)}
             >
               {this.props.G.cells[id]}
               <span class="circleA"></span>

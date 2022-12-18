@@ -1,4 +1,8 @@
-function GetRandomTile() {
+import Board from './board';
+let BgReact = require('boardgame.io/react');
+
+
+function GetRandomTile(){
   const effects = [
     "aperture",
     "shaking chair",
@@ -31,39 +35,44 @@ function TakeEffect(G, ctx) {
   }
 }
 
-const Tamashi = {
-  setup: () => ({
-    playerA: 0,
-    playerASoulDrops: 10,
-    playerB: 99,
-    playerBSoulDrops: 10,
-    cells: Array(100).fill(null),
-    currentTile: ""
-  }),
+const createGame = (numberOfPlayers) => {
 
-  moves: {
-    open(G, ctx) {
-      G.currentTile = GetRandomTile();
-      if (ctx.currentPlayer === "0") {
-        G.cells[G.playerB] = G.currentTile;
-      } else {
-        G.cells[G.playerA] = G.currentTile;
-      }
-      TakeEffect(G, ctx);
-    },
-
-    move(G, ctx, id) {
-      if (ctx.currentPlayer === "0") {
-        if (id !== G.playerA && id !== G.playerB) {
-          G.playerA = id;
+  return {
+    setup: () => ({
+      playerA: 0,
+      playerASoulDrops: 10,
+      playerB: 99,
+      playerBSoulDrops: 10,
+      cells: Array.apply(null, Array(100)).map(GetRandomTile)
+    }),
+  
+    moves: {
+      open(G, ctx) {
+        TakeEffect(G, ctx);
+      },
+  
+      move(G, ctx, id) {
+        if (ctx.currentPlayer === "0") {
+          if (id !== G.playerA && id !== G.playerB) {
+            G.playerA = id;
+          }
+        } else {
+          G.playerB = id;
         }
-      } else {
-        G.playerB = id;
       }
-    }
-  },
+    },
+  
+    turn: { moveLimit: 2 }
+  };
+}
 
-  turn: { moveLimit: 2 }
-};
+const createClient = (players) => {
+  return BgReact.Client({
+    game: createGame(players),
+    numPlayers: players,
+    board: Board,
+    debug: false
+  });
+}
 
-export default Tamashi;
+export default createClient;
