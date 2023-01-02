@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
+
+#root {
+    height: 100vh;
+    width: 100vw;
+
+    font-family: "Rowdies", sans-serif;
+    font-weight: 300;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.title {
+    width: 100%;
+    font-size: 7.5vh;
+    margin-bottom: -1.5vh;
+}
+
+.player-btn {
+    width: 10vw;
+    font-size: 3.5vh;
+    font-weight: 400;
+    padding: 0.5vh 0.2vw;
+    margin-top: 2.5vh;
+    border: 0.4vh solid #666666;
+    color: #555555;
+    border-radius: 1vh;
+    text-transform: uppercase;
+}
+
+* {
+    -webkit-user-drag: none;
+}
