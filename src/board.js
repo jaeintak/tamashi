@@ -12,29 +12,27 @@ class Board extends React.Component {
     isMultiplayer: PropTypes.bool
   };
 
-  onClick = (G, ctx, id) => {
-    console.log(ctx)
-    if (this.isPossible(G, ctx, id)) {
+  onClick = (id) => {
+    if (this.isPossible(id)) {
       this.props.moves.move(id);
-      this.props.moves.open(id);
     }
   };
 
-  isPossible(G, ctx, id) {
-    if (ctx.currentPlayer === "0") {
+  isPossible(id) {
+    if (this.props.ctx.currentPlayer === "0") {
       if (
-        id === G.playerA + 1 ||
-        id === G.playerA + -1 ||
-        id === G.playerA + 10 ||
-        id === G.playerA + -10
+        id === this.props.G.playerA + 1 ||
+        id === this.props.G.playerA + -1 ||
+        id === this.props.G.playerA + 10 ||
+        id === this.props.G.playerA + -10
       )
         return true;
       else return false;
     } else if (
-      id === G.playerB + 1 ||
-      id === G.playerB + -1 ||
-      id === G.playerB + 10 ||
-      id === G.playerB + -10
+      id === this.props.G.playerB + 1 ||
+      id === this.props.G.playerB + -1 ||
+      id === this.props.G.playerB + 10 ||
+      id === this.props.G.playerB + -10
     )
       return true;
     else return false;
@@ -48,53 +46,18 @@ class Board extends React.Component {
         const id = 10 * i + j;
         const playerA = this.props.G.playerA;
         const playerB = this.props.G.playerB;
-        if (id === playerA) {
-          cells.push(
-            <td
-              id="cell"
-              key={id}
-              onClick={this.onClick(this.props.G, this.props.ctx, id)}
-            >
-              {this.props.G.cells[id]}
-              <span class="circleA"></span>
-              <dialog open>
-                would you like to exit?
-                <button className="dialog-btn" onClick>
-                  yes
-                </button>
-                <button className="dialog-btn" onClick>
-                  no
-                </button>
-              </dialog>
-            </td>
-          );
-        } else if (id === playerB) {
-          cells.push(
-            <td
-              id="cell"
-              key={id}
-              onClick={() => this.onClick(this.props.G, this.props.ctx, id)}
-            >
-              {this.props.G.cells[id]}
-              <span class="circleB"></span>
-            </td>
-          );
-        } else {
-          cells.push(
-            <td
-              id="cell"
-              className={
-                this.isPossible(this.props.G, this.props.ctx, id)
-                  ? "possible"
-                  : ""
-              }
-              key={id}
-              onClick={() => this.onClick(this.props.G, this.props.ctx, id)}
-            >
-              {this.props.G.cells[id]}
-            </td>
-          );
-        }
+        cells.push(
+          <td
+            id="cell"
+            key={id}
+            className={[
+              this.isPossible(id) && "possible",
+              id === playerA && "circleA",
+              id === playerB && "circleB"
+            ].filter(e => !!e).join(' ')}
+            onClick={() => this.onClick(id)}
+          />
+        );
       }
       tbody.push(<tr key={i}>{cells}</tr>);
     }
