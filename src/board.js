@@ -14,11 +14,13 @@ class Board extends React.Component {
 
   onClick = (id) => {
     if (this.isPossible(id)) {
+      this.props.moves.open();
       this.props.moves.move(id);
     }
   };
 
   isPossible(id) {
+    if(this.props.G.playerA === this.props.G.playerB) return false;
     if (this.props.ctx.currentPlayer === "0") {
       if (
         id === this.props.G.playerA + 1 ||
@@ -46,6 +48,7 @@ class Board extends React.Component {
         const id = 10 * i + j;
         const playerA = this.props.G.playerA;
         const playerB = this.props.G.playerB;
+        
         cells.push(
           <td
             id="cell"
@@ -56,7 +59,7 @@ class Board extends React.Component {
               id === playerB && "circleB"
             ].filter(e => !!e).join(' ')}
             onClick={() => this.onClick(id)}
-          />
+          >{this.props.G.openCells[id] == true && this.props.G.cells[id]}</td>
         );
       }
       tbody.push(<tr key={i}>{cells}</tr>);
